@@ -4,8 +4,8 @@ import java.util.logging.Logger;
 
 public class App {
 
-    private static Logger logger = Logger.getLogger(App.class.getName());
-    private static char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private static final Logger logger = Logger.getLogger(App.class.getName());
+    private static final char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     private static boolean boxEmpty = false;
     private static byte winner = 0;
 
