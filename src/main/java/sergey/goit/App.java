@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class App {
-    private static final char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    private static final char[] BOX = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     private static final int[][] WINNING_COMBINATIONS = {
             {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
             {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
@@ -70,10 +70,10 @@ public class App {
         while (true) {
             byte input = scan.nextByte();
             if (input > 0 && input < 10) {
-                if (box[input - 1] == 'X' || box[input - 1] == 'O')
+                if (BOX[input - 1] == 'X' || BOX[input - 1] == 'O')
                     logger.info("That one is already in use. Enter another.");
                 else {
-                    box[input - 1] = 'X';
+                    BOX[input - 1] = 'X';
                     break;
                 }
             } else
@@ -85,7 +85,7 @@ public class App {
         boolean boxAvailable = false;
         int numberOfMoves = 9;
         for (i = 0; i < numberOfMoves; i++) {
-            if (box[i] != 'X' && box[i] != 'O') {
+            if (BOX[i] != 'X' && BOX[i] != 'O') {
                 boxAvailable = true;
                 break;
             }
@@ -100,8 +100,8 @@ public class App {
         boolean rt = true;
         while (rt) {
             byte rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
-            if (box[rand - 1] != 'X' && box[rand - 1] != 'O') {
-                box[rand - 1] = 'O';
+            if (BOX[rand - 1] != 'X' && BOX[rand - 1] != 'O') {
+                BOX[rand - 1] = 'O';
                 rt = false;
             }
         }
@@ -118,9 +118,9 @@ public class App {
 
     public static boolean checkLine(char symbol) {
         for (int[] combination : WINNING_COMBINATIONS) {
-            if (box[combination[0]] == symbol &&
-                    box[combination[1]] == symbol &&
-                    box[combination[2]] == symbol) {
+            if (BOX[combination[0]] == symbol &&
+                    BOX[combination[1]] == symbol &&
+                    BOX[combination[2]] == symbol) {
                 return true;
             }
         }
