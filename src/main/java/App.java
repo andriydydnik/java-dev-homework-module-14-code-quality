@@ -11,7 +11,7 @@ public class App {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        logger.config("Enter box number to select. Enjoy!\n");
+        logger.info("Enter box number to select. Enjoy!\n");
 
         while (winner == 0) {
             displayBoard();
@@ -31,16 +31,16 @@ public class App {
         printResultMessage();
     }
 
-    private static void displayBoard() {
-        for (String s : Arrays.asList(
-                "\n\n " + box[0] + " | " + box[1] + " | " + box[2] + " ",
-                "-----------",
-                " " + box[3] + " | " + box[4] + " | " + box[5] + " ",
-                "-----------",
-                " " + box[6] + " | " + box[7] + " | " + box[8] + " \n")) {
-            logger.config(s);
-        }
+    public static void displayBoard() {
+        String boardString = "\n\n " + box[0] + " | " + box[1] + " | " + box[2] + " "
+                + "\n-----------"
+                + "\n " + box[3] + " | " + box[4] + " | " + box[5] + " "
+                + "\n-----------"
+                + "\n " + box[6] + " | " + box[7] + " | " + box[8] + " \n";
+
+        logger.info(boardString);
     }
+
 
     private static void resetBoard() {
         Arrays.fill(box, ' ');
@@ -81,13 +81,13 @@ public class App {
             input = scan.nextByte();
             if (input > 0 && input < 10) {
                 if (box[input - 1] == 'X' || box[input - 1] == 'O') {
-                    logger.config("That one is already in use. Enter another.");
+                    logger.info("That one is already in use. Enter another.");
                 } else {
                     box[input - 1] = 'X';
                     break;
                 }
             } else {
-                logger.config("Invalid input. Enter again.");
+                logger.info("Invalid input. Enter again.");
             }
         }
     }
@@ -124,10 +124,10 @@ public class App {
     }
 
     private static void printWinnerMessage(String player) {
-        logger.config(player + " won the game!\nCreated by Shreyas Saha. Thanks for playing!");
+        logger.info(player + " won the game!\nCreated by Shreyas Saha. Thanks for playing!");
     }
 
     private static void printDrawMessage() {
-        logger.config("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
+        logger.info("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
     }
 }
