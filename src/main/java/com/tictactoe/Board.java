@@ -2,7 +2,8 @@ package com.tictactoe;
 
 public class Board {
 
-    static boolean boxEmpty = false;
+    private static boolean boxEmpty = false;
+    private static final byte NUMBEROFBOXES = 9;
 
     public static void printFieldAll(char[] arrayOfCells) {
         System.out.println("\n " + arrayOfCells[0] + " | " + arrayOfCells[1] + " | " + arrayOfCells[2] + " ");
@@ -17,7 +18,7 @@ public class Board {
     }
 
     public static void clearField(char[] arrayOfCells) {
-        for (byte i = 0; i < 9; i++) {
+        for (byte i = 0; i < NUMBEROFBOXES; i++) {
             arrayOfCells[i] = ' ';
             boxEmpty = true;
         }
