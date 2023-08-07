@@ -1,17 +1,16 @@
 package com.tictactoe;
 
-import java.util.Scanner;
 import java.util.logging.Logger;
 
+import static com.tictactoe.TicTacToe.scan;
 import static com.tictactoe.WinCombination.isWinning;
 
-public class PlayerStep {
+public class Player {
 
-    private static final Scanner scan = new Scanner(System.in);
-    private static final Logger logger = Logger.getLogger(PlayerStep.class.getName());
-    static byte input;
+    private static final Logger logger = Logger.getLogger(Player.class.getName());
+    byte input;
 
-    public static boolean playerSte(char[] box) {
+    public boolean playerStep(char[] box) {
         while (true) {
             input = scan.nextByte();
             if (input > 0 && input < 10) {
@@ -29,7 +28,7 @@ public class PlayerStep {
         return isWinning(box, 'X');
     }
 
-    private PlayerStep() {
+    public Player() {
         throw new IllegalStateException("PlayerStep class");
     }
 }

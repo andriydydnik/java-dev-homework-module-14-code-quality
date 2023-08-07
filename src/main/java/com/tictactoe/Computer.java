@@ -2,11 +2,11 @@ package com.tictactoe;
 
 import static com.tictactoe.WinCombination.isWinning;
 
-public class ComputerStep {
+public class Computer {
 
-    static byte rand;
+    byte rand;
 
-    public static boolean computerSte(char[] box) {
+    public boolean computerStep(char[] box) {
         while (true) {
             rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
             if (box[rand - 1] != 'X' && box[rand - 1] != 'O') {
@@ -18,7 +18,7 @@ public class ComputerStep {
         return isWinning(box, 'O');
     }
 
-    private ComputerStep() {
+    public Computer() {
         throw new IllegalStateException("ComputerStep class");
     }
 }

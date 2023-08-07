@@ -1,11 +1,11 @@
 package com.tictactoe;
 
-public class IsBoxAvailable {
+public class IsAvailableBoxes {
 
-    static boolean boxAvailable = false;
-    private static final byte NUMBEROFBOXES = 9;
+    boolean boxAvailable;
+    static final byte NUMBEROFBOXES = 9;
 
-    public static boolean isBoxAvailable(char[] box) {
+    public boolean isAvailable(char[] box) {
         boxAvailable = false;
 
         for (byte i = 0; i < NUMBEROFBOXES; i++) {
@@ -18,7 +18,7 @@ public class IsBoxAvailable {
         return !boxAvailable;
     }
 
-    private IsBoxAvailable() {
+    IsAvailableBoxes() {
         throw new IllegalStateException("IsBoxAvailable class");
     }
 }

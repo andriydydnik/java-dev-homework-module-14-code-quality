@@ -1,35 +1,39 @@
 package com.tictactoe;
 
+import java.util.Scanner;
 import java.util.logging.Logger;
-
-import static com.tictactoe.Board.printFieldAll;
-import static com.tictactoe.ComputerStep.computerSte;
-import static com.tictactoe.IsBoxAvailable.isBoxAvailable;
-import static com.tictactoe.PlayerStep.playerSte;
 
 public class TicTacToe {
 
-    private static final Logger logger = Logger.getLogger(TicTacToe.class.getName());
-    private static final char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    static Scanner scan = new Scanner(System.in);
+    Logger logger = Logger.getLogger(TicTacToe.class.getName());
+    char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
 
     public void startGame() {
         logger.info("Enter box number to select. Enjoy!\n");
+        Board board = new Board();
+        Player player = new Player();
 
         while (true) {
-            printFieldAll(box);
+            board.printBoard(box);
 
-            if (playerSte(box)) {
+            if (player.playerStep(box)) {
                 logger.info("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
+                scan.close();
                 break;
             }
 
-            if (isBoxAvailable(box)) {
+
+            if (new IsAvailableBoxes().isAvailable(box)) {
                 logger.info("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
+                scan.close();
                 break;
             }
 
-            if (computerSte(box)) {
+            if (new Computer().computerStep(box)) {
                 logger.info("You lost the game!\nCreated by Shreyas Saha. Thanks for playing!");
+                scan.close();
                 break;
             }
         }
