@@ -1,5 +1,7 @@
 package com.example;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class with app.
@@ -65,6 +67,18 @@ public final class App {
      * Initialize number of draw.
      */
     private static final int WIN_DRAW = 3;
+    /**
+     * String with creator text.
+     */
+    private static final String CREATED_BY = "Created by Saha ";
+    /**
+     * String with thanks text.
+     */
+    private static final String THANKS_FOR = "Thanks for playing!";
+    /**
+     * Initialize logger.
+     */
+    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
 
     private App() {
     }
@@ -82,18 +96,20 @@ public final class App {
         boolean boxAvailable;
         byte winner = 0;
         char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-        System.out.println("Enter box number to select. Enjoy!\n");
+        LOGGER.info("Enter box number to select. Enjoy!\n");
 
         boolean boxEmpty = false;
         while (true) {
-            System.out.println("\n\n " + box[T_LEFT] + " | " + box[T_CENTER]
-                    + " | " + box[T_RIGHT] + " \n");
-            System.out.println("-----------");
-            System.out.println(" " + box[M_LEFT] + " | " + box[M_CENTER]
-                    + " | " + box[M_RIGHT] + " \n");
-            System.out.println("-----------");
-            System.out.println(" " + box[B_LEFT] + " | " + box[B_CENTER]
-                    + " | " + box[B_RIGHT] + " \n");
+            if (LOGGER.isLoggable(Level.INFO)) {
+                LOGGER.info(String.format("%n%n %c | %c | %c %n", box[T_LEFT],
+                        box[T_CENTER], box[T_RIGHT]));
+                LOGGER.info("-----------");
+                LOGGER.info(String.format(" %c | %c | %c %n", box[M_LEFT],
+                        box[M_CENTER], box[M_RIGHT]));
+                LOGGER.info("-----------");
+                LOGGER.info(String.format(" %c | %c | %c %n", box[B_LEFT],
+                        box[B_CENTER], box[B_RIGHT]));
+            }
             if (!boxEmpty) {
                 for (i = 0; i < BOARD_SIZE; i++) {
                     box[i] = ' ';
@@ -102,19 +118,19 @@ public final class App {
             }
 
             if (winner == WIN_PLAYER) {
-                System.out.println("You won the game!");
-                System.out.println("Created by Shreyas Saha. "
-                        + "Thanks for playing!");
+                LOGGER.info("You won the game!");
+                LOGGER.info(CREATED_BY
+                        + THANKS_FOR);
                 break;
             } else if (winner == WIN_AI) {
-                System.out.println("You lost the game!");
-                System.out.println("Created by Shreyas Saha. "
-                        + "Thanks for playing!");
+                LOGGER.info("You lost the game!");
+                LOGGER.info(CREATED_BY
+                        + THANKS_FOR);
                 break;
             } else if (winner == WIN_DRAW) {
-                System.out.println("It's a draw!");
-                System.out.println("Created by Shreyas Saha. "
-                        + "Thanks for playing!");
+                LOGGER.info("It's a draw!");
+                LOGGER.info(CREATED_BY
+                        + THANKS_FOR);
                 break;
             }
 
@@ -122,14 +138,14 @@ public final class App {
                 input = scan.nextByte();
                 if (input > 0 && input < BOARD_SIZE + 1) {
                     if (box[input - 1] == PLAYER_S || box[input - 1] == AI_S) {
-                        System.out.println("That one is already in use. "
+                        LOGGER.info("That one is already in use. "
                                 + "Enter another.");
                     } else {
                         box[input - 1] = PLAYER_S;
                         break;
                     }
                 } else {
-                    System.out.println("Invalid input. Enter again.");
+                    LOGGER.info("Invalid input. Enter again.");
                 }
             }
             if ((box[T_LEFT] == PLAYER_S && box[T_CENTER]
