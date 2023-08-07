@@ -40,6 +40,4 @@ public class App {
             OverGame.checkGameOver(BOX);
         }
     }
-
-
 }
