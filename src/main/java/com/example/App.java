@@ -1,6 +1,6 @@
 package com.example;
+
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -70,7 +70,7 @@ public final class App {
     /**
      * String with creator text.
      */
-    private static final String CREATED_BY = "Created by Saha ";
+    private static final String CREATED_BY = "Created by Saha. ";
     /**
      * String with thanks text.
      */
@@ -90,123 +90,154 @@ public final class App {
      */
     public static void main(final String[] args) {
         Scanner scan = new Scanner(System.in);
-        byte input;
-        byte rand;
-        byte i;
-        boolean boxAvailable;
-        byte winner = 0;
         char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
         LOGGER.info("Enter box number to select. Enjoy!\n");
+        boolean showNum = true;
 
-        boolean boxEmpty = false;
         while (true) {
-            if (LOGGER.isLoggable(Level.INFO)) {
-                LOGGER.info(String.format("%n%n %c | %c | %c %n", box[T_LEFT],
-                        box[T_CENTER], box[T_RIGHT]));
-                LOGGER.info("-----------");
-                LOGGER.info(String.format(" %c | %c | %c %n", box[M_LEFT],
-                        box[M_CENTER], box[M_RIGHT]));
-                LOGGER.info("-----------");
-                LOGGER.info(String.format(" %c | %c | %c %n", box[B_LEFT],
-                        box[B_CENTER], box[B_RIGHT]));
-            }
-            if (!boxEmpty) {
-                for (i = 0; i < BOARD_SIZE; i++) {
-                    box[i] = ' ';
-                }
-                boxEmpty = true;
+            displayBoard(box, showNum);
+            if (showNum) {
+                showNum = false;
             }
 
-            if (winner == WIN_PLAYER) {
-                LOGGER.info("You won the game!");
-                LOGGER.info(CREATED_BY
-                        + THANKS_FOR);
-                break;
-            } else if (winner == WIN_AI) {
-                LOGGER.info("You lost the game!");
-                LOGGER.info(CREATED_BY
-                        + THANKS_FOR);
-                break;
-            } else if (winner == WIN_DRAW) {
-                LOGGER.info("It's a draw!");
-                LOGGER.info(CREATED_BY
-                        + THANKS_FOR);
+            byte winner = checkWinner(box);
+            if (winner != 0) {
+                printResult(winner);
                 break;
             }
 
-            while (true) {
-                input = scan.nextByte();
-                if (input > 0 && input < BOARD_SIZE + 1) {
-                    if (box[input - 1] == PLAYER_S || box[input - 1] == AI_S) {
-                        LOGGER.info("That one is already in use. "
-                                + "Enter another.");
-                    } else {
-                        box[input - 1] = PLAYER_S;
-                        break;
-                    }
-                } else {
-                    LOGGER.info("Invalid input. Enter again.");
-                }
-            }
-            if ((box[T_LEFT] == PLAYER_S && box[T_CENTER]
-                    == PLAYER_S && box[T_RIGHT] == PLAYER_S)
-                    || (box[M_LEFT] == PLAYER_S && box[M_CENTER]
-                    == PLAYER_S && box[M_RIGHT] == PLAYER_S)
-                    || (box[B_LEFT] == PLAYER_S && box[B_CENTER]
-                    == PLAYER_S && box[B_RIGHT] == PLAYER_S)
-                    || (box[T_LEFT] == PLAYER_S && box[M_LEFT]
-                    == PLAYER_S && box[B_LEFT] == PLAYER_S)
-                    || (box[T_CENTER] == PLAYER_S && box[M_CENTER]
-                    == PLAYER_S && box[B_CENTER] == PLAYER_S)
-                    || (box[T_RIGHT] == PLAYER_S && box[M_RIGHT]
-                    == PLAYER_S && box[B_RIGHT] == PLAYER_S)
-                    || (box[T_LEFT] == PLAYER_S && box[M_CENTER]
-                    == PLAYER_S && box[B_RIGHT] == PLAYER_S)
-                    || (box[T_RIGHT] == PLAYER_S && box[M_CENTER]
-                    == PLAYER_S && box[B_LEFT] == PLAYER_S)) {
-                winner = WIN_PLAYER;
+            byte input = getUserInput(scan);
+            if (input == -1) {
+                LOGGER.info("Invalid input. Enter again.");
                 continue;
             }
 
-            boxAvailable = false;
-            for (i = 0; i < BOARD_SIZE; i++) {
-                if (box[i] != PLAYER_S && box[i] != AI_S) {
-                    boxAvailable = true;
-                    break;
-                }
+            if (isBoxOccupied(box, input)) {
+                LOGGER.info("That one is already in use. Enter another.");
+                continue;
             }
 
-            if (!boxAvailable) {
+            box[input - 1] = PLAYER_S;
+            winner = checkWinner(box);
+            if (winner != 0) {
+                printResult(winner);
+                break;
+            }
+
+            if (!isBoxAvailable(box)) {
                 winner = WIN_DRAW;
-                continue;
+                printResult(winner);
+                break;
             }
 
-            while (true) {
-                rand = (byte) (Math.random() * (BOARD_SIZE - 1 + 1) + 1);
-                if (box[rand - 1] != PLAYER_S && box[rand - 1] != AI_S) {
-                    box[rand - 1] = AI_S;
-                    break;
-                }
-            }
-
-            if ((box[T_LEFT] == AI_S && box[T_CENTER]
-                    == AI_S && box[T_RIGHT] == AI_S)
-                    || (box[M_LEFT] == AI_S && box[M_CENTER]
-                    == AI_S && box[M_RIGHT] == AI_S)
-                    || (box[B_LEFT] == AI_S && box[B_CENTER]
-                    == AI_S && box[B_RIGHT] == AI_S)
-                    || (box[T_LEFT] == AI_S && box[M_LEFT]
-                    == AI_S && box[B_LEFT] == AI_S)
-                    || (box[T_CENTER] == AI_S && box[M_CENTER]
-                    == AI_S && box[B_CENTER] == AI_S)
-                    || (box[T_RIGHT] == AI_S && box[M_RIGHT]
-                    == AI_S && box[B_RIGHT] == AI_S)
-                    || (box[T_LEFT] == AI_S && box[M_CENTER]
-                    == AI_S && box[B_RIGHT] == AI_S)
-                    || (box[T_RIGHT] == AI_S && box[M_CENTER]
-                    == AI_S && box[B_LEFT] == AI_S)) {
-                winner = WIN_AI;
+            byte rand = makeAIMove(box);
+            box[rand - 1] = AI_S;
+            winner = checkWinner(box);
+            if (winner != 0) {
+                printResult(winner);
+                break;
             }
         }
+    }
+
+    private static boolean isBoxOccupied(final char[] box, final byte input) {
+        return box[input - 1] == PLAYER_S || box[input - 1] == AI_S;
+    }
+
+    private static void displayBoard(final char[] box, final boolean showNum) {
+        String board = "\n" + " "
+                + getBoxValue(box[T_LEFT], showNum) + " | "
+                + getBoxValue(box[T_CENTER], showNum) + " | "
+                + getBoxValue(box[T_RIGHT], showNum) + " \n"
+                + "-----------\n" + " " + getBoxValue(box[M_LEFT], showNum)
+                + " | " + getBoxValue(box[M_CENTER], showNum) + " | "
+                + getBoxValue(box[M_RIGHT], showNum) + " \n" + "-----------\n"
+                + " " + getBoxValue(box[B_LEFT], showNum) + " | "
+                + getBoxValue(box[B_CENTER], showNum) + " | "
+                + getBoxValue(box[B_RIGHT], showNum) + " \n";
+
+        LOGGER.info(board);
+    }
+
+    private static char getBoxValue(final char value, final boolean showNum) {
+        if (showNum) {
+            return value;
+        }
+        return (value == PLAYER_S || value == AI_S) ? value : ' ';
+    }
+
+    private static void printResult(final byte winner) {
+        switch (winner) {
+            case WIN_PLAYER -> LOGGER.info("You won the game!");
+            case WIN_AI -> LOGGER.info("You lost the game!");
+            case WIN_DRAW -> LOGGER.info("It's a draw!");
+            default -> LOGGER.info("ERROR");
+        }
+        LOGGER.info(CREATED_BY + THANKS_FOR);
+    }
+
+    private static byte checkWinner(final char[] box) {
+        boolean horizontal = isFullHorizontal(box);
+        boolean vertical = isFullVertical(box);
+        boolean diagonal = isFullDiagonal(box);
+
+        if (horizontal || vertical || diagonal) {
+            return (byte) ((box[M_CENTER] == PLAYER_S) ? WIN_PLAYER : WIN_AI);
+        }
+
+        return isBoxAvailable(box) ? (byte) 0 : WIN_DRAW;
+    }
+
+    private static boolean isFullHorizontal(final char[] box) {
+        return (box[T_LEFT] == box[T_CENTER] && box[T_CENTER] == box[T_RIGHT]);
+    }
+
+    private static boolean isFullVertical(final char[] box) {
+        return (box[M_LEFT] == box[M_CENTER] && box[M_CENTER] == box[M_RIGHT]);
+    }
+
+    private static boolean isFullDiagonal(final char[] box) {
+        return (box[B_LEFT] == box[B_CENTER]
+                && box[B_CENTER] == box[B_RIGHT])
+                || (box[T_LEFT] == box[M_LEFT] && box[M_LEFT] == box[B_LEFT])
+                || (box[T_CENTER] == box[M_CENTER]
+                && box[M_CENTER] == box[B_CENTER])
+                || (box[T_RIGHT] == box[M_RIGHT]
+                && box[M_RIGHT] == box[B_RIGHT])
+                || (box[T_LEFT] == box[M_CENTER]
+                && box[M_CENTER] == box[B_RIGHT])
+                || (box[T_RIGHT] == box[M_CENTER]
+                && box[M_CENTER] == box[B_LEFT]);
+    }
+
+    private static boolean isBoxAvailable(final char[] box) {
+        for (char c : box) {
+            if (c != PLAYER_S && c != AI_S) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static byte getUserInput(final Scanner scan) {
+        byte input;
+        try {
+            input = scan.nextByte();
+            if (input > 0 && input < BOARD_SIZE + 1) {
+                return input;
+            } else {
+                return -1;
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    private static byte makeAIMove(final char[] box) {
+        byte rand = (byte) (Math.random() * (BOARD_SIZE - 1 + 1) + 1);
+        while (box[rand - 1] == PLAYER_S || box[rand - 1] == AI_S) {
+            rand = (byte) (Math.random() * (BOARD_SIZE - 1 + 1) + 1);
+        }
+        return rand;
     }
 }
