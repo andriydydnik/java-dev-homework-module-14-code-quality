@@ -177,37 +177,30 @@ public final class App {
     }
 
     private static byte checkWinner(final char[] box) {
-        boolean horizontal = isFullHorizontal(box);
-        boolean vertical = isFullVertical(box);
-        boolean diagonal = isFullDiagonal(box);
-
-        if (horizontal || vertical || diagonal) {
-            return (byte) ((box[M_CENTER] == PLAYER_S) ? WIN_PLAYER : WIN_AI);
+        if (isAnyFullLine(box, PLAYER_S)) {
+            return WIN_PLAYER;
+        } else if (isAnyFullLine(box, AI_S)) {
+            return WIN_AI;
         }
 
         return isBoxAvailable(box) ? (byte) 0 : WIN_DRAW;
     }
 
-    private static boolean isFullHorizontal(final char[] box) {
-        return (box[T_LEFT] == box[T_CENTER] && box[T_CENTER] == box[T_RIGHT]);
+    private static boolean isAnyFullLine(final char[] box, final char symbol) {
+        return isFullLine(box, T_LEFT, T_CENTER, T_RIGHT, symbol)
+                || isFullLine(box, M_LEFT, M_CENTER, M_RIGHT, symbol)
+                || isFullLine(box, B_LEFT, B_CENTER, B_RIGHT, symbol)
+                || isFullLine(box, T_LEFT, M_LEFT, B_LEFT, symbol)
+                || isFullLine(box, T_CENTER, M_CENTER, B_CENTER, symbol)
+                || isFullLine(box, T_RIGHT, M_RIGHT, B_RIGHT, symbol)
+                || isFullLine(box, T_LEFT, M_CENTER, B_RIGHT, symbol)
+                || isFullLine(box, T_RIGHT, M_CENTER, B_LEFT, symbol);
     }
 
-    private static boolean isFullVertical(final char[] box) {
-        return (box[M_LEFT] == box[M_CENTER] && box[M_CENTER] == box[M_RIGHT]);
-    }
-
-    private static boolean isFullDiagonal(final char[] box) {
-        return (box[B_LEFT] == box[B_CENTER]
-                && box[B_CENTER] == box[B_RIGHT])
-                || (box[T_LEFT] == box[M_LEFT] && box[M_LEFT] == box[B_LEFT])
-                || (box[T_CENTER] == box[M_CENTER]
-                && box[M_CENTER] == box[B_CENTER])
-                || (box[T_RIGHT] == box[M_RIGHT]
-                && box[M_RIGHT] == box[B_RIGHT])
-                || (box[T_LEFT] == box[M_CENTER]
-                && box[M_CENTER] == box[B_RIGHT])
-                || (box[T_RIGHT] == box[M_CENTER]
-                && box[M_CENTER] == box[B_LEFT]);
+    private static boolean isFullLine(final char[] box, final int a,
+                                      final int b, final int c,
+                                      final char symbol) {
+        return (box[a] == symbol && box[b] == symbol && box[c] == symbol);
     }
 
     private static boolean isBoxAvailable(final char[] box) {
