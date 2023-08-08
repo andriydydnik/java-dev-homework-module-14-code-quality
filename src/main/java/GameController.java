@@ -1,47 +1,50 @@
 import java.util.Scanner;
+
 public class GameController {
     private final GameBoard gameBoard;
-    private static final char[] BOX = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-    private static byte winner = 0;
+    private final char[] box = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    public static final char PLAYER_SYMBOL = 'X';
+    public static final char COMPUTER_SYMBOL = 'O';
+    private byte winner = 0;
+    private static final byte BOARD_SIDE = 9;
 
     public GameController(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
     }
 
     public char[] getBox() {
-        return BOX;
+        return box;
     }
 
     public void startGame() {
         Scanner scan = new Scanner(System.in);
-        GameMessages gameMessages=new GameMessages();
+        GameMessages gameMessages = new GameMessages();
         gameMessages.displayStartMessage();
 
+
         boolean boxEmpty = false;
+
         while (winner == 0) {
             gameBoard.displayBoard(getBox());
 
+
             if (!boxEmpty) {
-                gameBoard.resetBoard(BOX);
+                gameBoard.resetBoard(box);
                 boxEmpty = true;
             }
-
             if (checkAndProcessUserMove()) {
                 continue;
             }
             userMove(scan);
             checkAndProcessAIMove();
         }
-
         gameMessages.printResultMessage(winner);
-
-
 
         scan.close();
     }
 
-    private static boolean checkAndProcessUserMove() {
-        if (checkWin('X')) {
+    private boolean checkAndProcessUserMove() {
+        if (checkWin(PLAYER_SYMBOL)) {
             winner = 1;
             return true;
         } else if (!checkAvailable()) {
@@ -51,23 +54,23 @@ public class GameController {
         return false;
     }
 
-    private static void checkAndProcessAIMove() {
+    private void checkAndProcessAIMove() {
         aiMove();
-        if (checkWin('O')) {
+        if (checkWin(COMPUTER_SYMBOL)) {
             winner = 2;
         }
     }
 
-    private static void userMove(Scanner scan) {
-        GameMessages gameMessages =new GameMessages();
+    private void userMove(Scanner scan) {
+        GameMessages gameMessages = new GameMessages();
         byte input;
         while (true) {
             input = scan.nextByte();
-            if (input > 0 && input < 10) {
-                if (BOX[input - 1] == 'X' || BOX[input - 1] == 'O') {
+            if (input > 0 && input <= BOARD_SIDE) {
+                if (box[input - 1] == PLAYER_SYMBOL || box[input - 1] == COMPUTER_SYMBOL) {
                     gameMessages.displayMessage("That one is already in use. Enter another.");
                 } else {
-                    BOX[input - 1] = 'X';
+                    box[input - 1] = PLAYER_SYMBOL;
                     break;
                 }
             } else {
@@ -76,32 +79,32 @@ public class GameController {
         }
     }
 
-    private static boolean checkWin(char symbol) {
-        return (BOX[0] == symbol && BOX[1] == symbol && BOX[2] == symbol) ||
-                (BOX[3] == symbol && BOX[4] == symbol && BOX[5] == symbol) ||
-                (BOX[6] == symbol && BOX[7] == symbol && BOX[8] == symbol) ||
-                (BOX[0] == symbol && BOX[3] == symbol && BOX[6] == symbol) ||
-                (BOX[1] == symbol && BOX[4] == symbol && BOX[7] == symbol) ||
-                (BOX[2] == symbol && BOX[5] == symbol && BOX[8] == symbol) ||
-                (BOX[0] == symbol && BOX[4] == symbol && BOX[8] == symbol) ||
-                (BOX[2] == symbol && BOX[4] == symbol && BOX[6] == symbol);
+    private boolean checkWin(char symbol) {
+        return (box[0] == symbol && box[1] == symbol && box[2] == symbol) ||
+                (box[3] == symbol && box[4] == symbol && box[5] == symbol) ||
+                (box[6] == symbol && box[7] == symbol && box[8] == symbol) ||
+                (box[0] == symbol && box[3] == symbol && box[6] == symbol) ||
+                (box[1] == symbol && box[4] == symbol && box[7] == symbol) ||
+                (box[2] == symbol && box[5] == symbol && box[8] == symbol) ||
+                (box[0] == symbol && box[4] == symbol && box[8] == symbol) ||
+                (box[2] == symbol && box[4] == symbol && box[6] == symbol);
     }
 
-    private static boolean checkAvailable() {
-        for (char c : BOX) {
-            if (c != 'X' && c != 'O') {
+    private boolean checkAvailable() {
+        for (char c : box) {
+            if (c != PLAYER_SYMBOL && c != COMPUTER_SYMBOL) {
                 return true;
             }
         }
         return false;
     }
 
-    private static void aiMove() {
+    private void aiMove() {
         byte rand;
         while (true) {
-            rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
-            if (BOX[rand - 1] != 'X' && BOX[rand - 1] != 'O') {
-                BOX[rand - 1] = 'O';
+            rand = (byte) (Math.random() * (BOARD_SIDE - 1 + 1) + 1);
+            if (box[rand - 1] != PLAYER_SYMBOL && box[rand - 1] != COMPUTER_SYMBOL) {
+                box[rand - 1] = COMPUTER_SYMBOL;
                 break;
             }
         }

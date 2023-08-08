@@ -6,9 +6,11 @@ public class GameMessages {
     public void displayMessage(String message) {
         logger.info(message);
     }
+
     public void displayStartMessage() {
         logger.info("Enter box number to select. Enjoy!\n");
     }
+
     public void printResultMessage(byte winner) {
         if (winner == 1) {
             logger.info("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
