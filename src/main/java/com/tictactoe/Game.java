@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Game {
     private final Box box = new Box();
 
-    private final static Scanner scan = new Scanner(System.in);
+    private static final Scanner scan = new Scanner(System.in);
 
     private byte input() {
         while (true) {
@@ -90,7 +90,7 @@ public class Game {
         }
     }
 
-    private final static String MESAGE_ON_WON = "You won the game!\nCreated by Shreyas Saha. Thanks for playing!";
-    private final static String MESAGE_ON_LOST = "You lost the game!\nCreated by Shreyas Saha. Thanks for playing!";
-    private final static String MESAGE_ON_DRAW = "It's a draw!\nCreated by Shreyas Saha. Thanks for playing!";
+    private static final String MESAGE_ON_WON = "You won the game!\nCreated by Shreyas Saha. Thanks for playing!";
+    private static final String MESAGE_ON_LOST = "You lost the game!\nCreated by Shreyas Saha. Thanks for playing!";
+    private static final String MESAGE_ON_DRAW = "It's a draw!\nCreated by Shreyas Saha. Thanks for playing!";
 }
