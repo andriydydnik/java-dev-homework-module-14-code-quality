@@ -1,3 +1,5 @@
+import board.TicTacToeBoard;
+import ticTacToeLogic.GameLogic;
 
 public class App {
 

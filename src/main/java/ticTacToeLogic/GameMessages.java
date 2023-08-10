@@ -1,3 +1,5 @@
+package ticTacToeLogic;
+
 import java.util.logging.Logger;
 
 public class GameMessages {
