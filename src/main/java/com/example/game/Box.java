@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Box {
-    private char[] boxArray;
+    private final char[]  boxArray;
     private static final int BOX_SIZE = 9;
 
     public Box() {
