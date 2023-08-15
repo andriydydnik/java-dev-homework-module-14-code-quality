@@ -5,21 +5,29 @@ import java.util.logging.Logger;
 import static org.mygame.StepForPlay.*;
 
 public class Box {
-
     boolean boxEmpty;
     static final byte BOX_SIZE = 9;
     boolean boxAvailable;
-    Logger logger = Logger.getLogger(Box.class.getName());
 
-    public void printBoard(char[] arrayOfCells) {
-        logger.info("\n " + arrayOfCells[0] + " | " + arrayOfCells[1] + " | " + arrayOfCells[2] + " " +
-                "\n-----------" +
-                "\n " + arrayOfCells[3] + " | " + arrayOfCells[4] + " | " + arrayOfCells[5] + " " +
-                "\n-----------" +
-                "\n " + arrayOfCells[6] + " | " + arrayOfCells[7] + " | " + arrayOfCells[8] + " \n");
+    public void printBoxInfo(char[] box) {
+        String message = """
+         
+        %c | %c | %c
+        -----------
+         %c | %c | %c
+        -----------
+         %c | %c | %c
+        """.formatted(
+                box[0], box[1], box[2],
+                box[3], box[4], box[5],
+                box[6], box[7], box[8]
+        );
+
+        Logger logger = Logger.getLogger(Box.class.getName());
+        logger.info(message);
 
         if (!boxEmpty) {
-            clearBoard(arrayOfCells);
+            clearBoard(box);
         }
     }
 
@@ -34,9 +42,9 @@ public class Box {
                 (box[2] == value && box[4] == value && box[6] == value);
     }
 
-    public void clearBoard(char[] arrayOfCells) {
+    public void clearBoard(char[] box) {
         for (byte i = 0; i < BOX_SIZE; i++) {
-            arrayOfCells[i] = ' ';
+            box[i] = ' ';
             boxEmpty = true;
         }
     }
