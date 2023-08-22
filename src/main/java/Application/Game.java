@@ -3,53 +3,47 @@ package Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Scanner;
-
 public class Game {
     static final Logger logger = LoggerFactory.getLogger(Game.class);
     char[] box;
-    public Game(){
-        box= new char[]{'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    UserInput userInput = new UserInput();
+
+    public Game() {
+        box = new char[]{'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     }
+
     public void play() {
-
-        Scanner scan = new Scanner(System.in);
-
         boolean boxEmpty = false;
         boolean playing = true;
         while (playing) {
-
             printField();
-
             if (!boxEmpty) {
                 resumeBox();
                 boxEmpty = true;
             }
-
-            userInput( scan);
-
+            userTurn();
             if (isUserWon()) {
                 logger.info("You won the game!\nCreated by Shreyas Saha. Thanks for playing!");
                 playing = false;
+                userInput.closeInput();
             }
-
             if (isDraw()) {
                 logger.info("It's a draw!\nCreated by Shreyas Saha. Thanks for playing!");
                 playing = false;
+                userInput.closeInput();
             }
             if (playing) {
                 pcTurn();
             }
-
             if (isPCWon()) {
                 logger.info("You lost the game!\nCreated by Shreyas Saha. Thanks for playing!");
                 playing = false;
+                userInput.closeInput();
             }
         }
-
     }
 
-    private  void printField() {
+    private void printField() {
         String format = " {} | {} | {}";
         logger.info(format, box[0], box[1], box[2]);
         logger.info("-----------");
@@ -58,24 +52,23 @@ public class Game {
         logger.info(format, box[6], box[7], box[8]);
     }
 
-    private void userInput( Scanner scan) {
+    private void userTurn() {
         byte input;
-        logger.info("Enter box number to select. Enjoy!\n");
-        while (true) {
-            input = scan.nextByte();
-            if (input > 0 && input < 10) {
-                if (box[input - 1] == 'X' || box[input - 1] == 'O')
-                    logger.info("That one is already in use. Enter another.");
-                else {
-                    box[input - 1] = 'X';
-                    break;
-                }
-            } else
-                logger.info("Invalid input. Enter again.");
+        boolean inputCorrect = false;
+        input = userInput.userChoice();
+        while (!inputCorrect) {
+            if (box[input - 1] == 'X' || box[input - 1] == 'O') {
+                logger.info("That one is already in use. Enter another.");
+                input = userInput.userChoice();
+            } else {
+                box[input - 1] = 'X';
+                inputCorrect = true;
+            }
         }
+
     }
 
-    private  void pcTurn() {
+    private void pcTurn() {
         byte rand;
         while (true) {
             rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
@@ -86,15 +79,15 @@ public class Game {
         }
     }
 
-    private  boolean isUserWon() {
-        return isWin( 'X');
+    private boolean isUserWon() {
+        return isWin('X');
     }
 
-    private  boolean isPCWon() {
-        return isWin( 'O');
+    private boolean isPCWon() {
+        return isWin('O');
     }
 
-    private  boolean isDraw() {
+    private boolean isDraw() {
         boolean boxAvailable;
         boxAvailable = false;
         for (int i = 0; i < 9; i++) {
@@ -106,7 +99,7 @@ public class Game {
         return !boxAvailable;
     }
 
-    private  boolean isWin(char symbol) {
+    private boolean isWin(char symbol) {
         return ((box[0] == symbol && box[1] == symbol && box[2] == symbol) ||
                 (box[3] == symbol && box[4] == symbol && box[5] == symbol) ||
                 (box[6] == symbol && box[7] == symbol && box[8] == symbol) ||
@@ -116,7 +109,8 @@ public class Game {
                 (box[0] == symbol && box[4] == symbol && box[8] == symbol) ||
                 (box[2] == symbol && box[4] == symbol && box[6] == symbol));
     }
-    private  void resumeBox(){
+
+    private void resumeBox() {
         for (int i = 0; i < 9; i++)
             box[i] = ' ';
     }
