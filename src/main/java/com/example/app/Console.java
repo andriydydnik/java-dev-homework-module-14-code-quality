@@ -5,8 +5,12 @@ import java.util.Scanner;
 
 import static com.example.app.AppConstants.*;
 
-public class Console {
+public final class Console {
     private static final Scanner scanner = new Scanner(System.in);
+
+    private Console() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static void readBoxNumber(char[] box) {
         int value;
@@ -32,9 +36,10 @@ public class Console {
     }
 
     public static void displayBox(char[] box) {
-        for (int i = 0; i < box.length; i++) {
-            System.out.println(" " + box[i] + " | " + box[++i] + " | " + box[++i] + " ");
-            if (i != box.length - 1)
+        final int length = box.length;
+        for (int i = 0; i < length; i += 3) {
+            System.out.println(" " + box[i] + " | " + box[i + 1] + " | " + box[i + 2] + " ");
+            if (i != length - 3)
                 System.out.println("-----------");
         }
     }
