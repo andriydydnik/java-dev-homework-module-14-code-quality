@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import static com.example.app.AppConstants.*;
 
-public class UserInput {
+public class Console {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void readBoxNumber(char[] box) {
@@ -28,6 +28,14 @@ public class UserInput {
                 else System.out.print("That one (" + value + ") is already in use. Enter another: ");
             }
             else System.out.print("Invalid input. Enter again: ");
+        }
+    }
+
+    public static void displayBox(char[] box) {
+        for (int i = 0; i < box.length; i++) {
+            System.out.println(" " + box[i] + " | " + box[++i] + " | " + box[++i] + " ");
+            if (i != box.length - 1)
+                System.out.println("-----------");
         }
     }
 }

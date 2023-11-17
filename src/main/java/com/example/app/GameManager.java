@@ -11,14 +11,14 @@ public class GameManager {
     private boolean gameOver;
 
     public void startGame() {
-        System.out.println("Enter box number to select. Enjoy!\n");
+        System.out.println("Welcome to Tic-tac-toe! Enter box number to select. Enjoy ^_^\n");
 
         while (!gameOver) {
-            displayBox();
+            Console.displayBox(box);
             if (!boxCleared) clearBox();
 
-            System.out.print("\nYour turn: ");
-            UserInput.readBoxNumber(box);
+            System.out.print("\nEnter box number: ");
+            Console.readBoxNumber(box);
 
             if (playerWon()) {
                 finishGame("\nYou won the game!");
@@ -44,24 +44,15 @@ public class GameManager {
     }
 
     private boolean detectWinner(char ch) {
-        return horizontalRowFilled(ch) || verticalRowFilled(ch) || diagonalRowFilled(ch);
-    }
-
-    private boolean horizontalRowFilled(char ch) {
-        return (box[0] == ch && box[1] == ch && box[2] == ch) || (box[3] == ch && box[4] == ch && box[5] == ch) || (box[6] == ch && box[7] == ch && box[8] == ch);
-    }
-
-    private boolean verticalRowFilled(char ch) {
-        return (box[0] == ch && box[3] == ch && box[6] == ch) || (box[1] == ch && box[4] == ch && box[7] == ch) || (box[2] == ch && box[5] == ch && box[8] == ch);
-    }
-
-    private boolean diagonalRowFilled(char ch) {
-        return (box[0] == ch && box[4] == ch && box[8] == ch) || (box[2] == ch && box[4] == ch && box[6] == ch);
+        int[][] combinations = { {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6} };
+        for (int[] comb : combinations)
+            if (Arrays.stream(comb).allMatch(i -> box[i] == ch)) return true;
+        return false;
     }
 
     private boolean drawDetected() {
         for (char ch : box)
-            if (ch == ' ') return false;
+            if (ch == EMPTY_SYMBOL) return false;
         return true;
     }
 
@@ -83,15 +74,7 @@ public class GameManager {
 
     private void finishGame(String message) {
         gameOver = true;
-        displayBox();
+        Console.displayBox(box);
         System.out.println(message + "\nThanks for playing!");
-    }
-
-    private void displayBox() {
-        for (int i = 0; i < box.length; i++) {
-            System.out.println(" " + box[i] + " | " + box[++i] + " | " + box[++i] + " ");
-            if (i != box.length - 1)
-                System.out.println("-----------");
-        }
     }
 }
