@@ -6,6 +6,7 @@ import java.util.Random;
 import static com.example.app.AppConstants.*;
 
 public class GameManager {
+    private final Random random = new Random();
     private final char[] box = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
     private boolean boxCleared;
     private boolean gameOver;
@@ -57,7 +58,6 @@ public class GameManager {
     }
 
     private void makeOpponentMove() {
-        Random random = new Random();
         while (true) {
             int index = random.nextInt(box.length);
             if (box[index] == EMPTY_SYMBOL) {
