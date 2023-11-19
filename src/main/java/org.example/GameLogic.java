@@ -1,15 +1,12 @@
 package org.example;
 
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 import static org.example.Constants.*;
 
 public class GameLogic {
-    private static final Scanner SCANNER = new Scanner(System.in);
-    private static final Logger LOGGER = Logger.getLogger(GameLogic.class.getName());
-    private static int winner = 0;
     private static final Board board = new Board();
+    private static int winner = 0;
 
     private GameLogic() {
     }
@@ -17,7 +14,7 @@ public class GameLogic {
     public static void startGame() {
         while (true) {
             board.printBoard();
-            Board.resetBoard();
+            board.resetBoard();
             playerInput();
             checkAvailableMoves();
             checkGameResult();
@@ -35,19 +32,21 @@ public class GameLogic {
         }
     }
 
-
+    @SuppressWarnings("java:S106")
     private static void playerInput() {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            byte input = SCANNER.nextByte();
+            byte input = scanner.nextByte();
             if (input > 0 && input < 10) {
                 if (BOARD[input - 1] == PLAYER_X || BOARD[input - 1] == PLAYER_O)
-                    LOGGER.info("That one is already in use. Enter another.");
+                    System.out.println("That one is already in use. Enter another.");
                 else {
                     BOARD[input - 1] = PLAYER_X;
                     break;
                 }
-            } else
-                LOGGER.warning("Invalid input. Enter again.");
+            } else {
+                System.out.println("Invalid input. Enter again.");
+            }
         }
     }
 

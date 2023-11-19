@@ -3,11 +3,8 @@ package org.example;
 import static org.example.Constants.BOARD;
 import static org.example.Constants.EMPTY_CELL;
 
-
 public class Board {
-    protected static boolean isBoardEmpty = false;
-
-
+    private boolean isBoardEmpty = false;
     @SuppressWarnings("java:S106")
     public void printBoard() {
         System.out.println("|---|---|---|");
@@ -19,7 +16,7 @@ public class Board {
         System.out.println("|---|---|---|");
     }
 
-    public static void resetBoard() {
+    public void resetBoard() {
         if (!isBoardEmpty) {
             for (byte i = 0; i < 9; i++) {
                 BOARD[i] = EMPTY_CELL;
