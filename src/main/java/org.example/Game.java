@@ -4,14 +4,15 @@ import java.util.Scanner;
 
 import static org.example.Constants.*;
 
-public class GameLogic {
-    private static final Board board = new Board();
+public class Game {
     private static int winner = 0;
+    private Board board;
 
-    private GameLogic() {
+    public Game() {
+        this.board = new Board();
     }
 
-    public static void startGame() {
+    public void startGame() {
         while (true) {
             board.printBoard();
             board.resetBoard();
@@ -31,6 +32,17 @@ public class GameLogic {
             }
         }
     }
+    private void checkGameResult() {
+        if (checkWinner(PLAYER_X)) {
+            board.printBoard();
+            winner = 1;
+        } else if (checkWinner(PLAYER_O)) {
+            board.printBoard();
+            winner = 2;
+        } else {
+            checkAvailableMoves();
+        }
+    }
 
     @SuppressWarnings("java:S106")
     private static void playerInput() {
@@ -47,18 +59,6 @@ public class GameLogic {
             } else {
                 System.out.println("Invalid input. Enter again.");
             }
-        }
-    }
-
-    private static void checkGameResult() {
-        if (checkWinner(PLAYER_X)) {
-            board.printBoard();
-            winner = 1;
-        } else if (checkWinner(PLAYER_O)) {
-            board.printBoard();
-            winner = 2;
-        } else {
-            checkAvailableMoves();
         }
     }
 
