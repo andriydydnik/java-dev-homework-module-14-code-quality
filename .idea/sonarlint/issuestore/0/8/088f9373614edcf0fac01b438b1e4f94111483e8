@@ -1,11 +1,0 @@
-
-7
-java:S1220""Move this file to a named package.8’þ“ë½1
-G	java:S106	"+Replace this use of System.out by a logger.(Ä™¶Æ8÷ÿ“ë½1
-;
-java:S2119"Save and re-use this "Random".(¡Å”¦8üÿ“ë½1
-o
-java:S3776"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(óçàâ8þÿ“ë½1
-G	java:S106&"+Replace this use of System.out by a logger.(„Ã×«8€€”ë½1
-a
-java:S3358'"DExtract this nested ternary operation into an independent statement.(åÉ³Ö8€€”ë½1
