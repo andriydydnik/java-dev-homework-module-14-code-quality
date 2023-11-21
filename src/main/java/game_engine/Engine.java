@@ -1,13 +1,14 @@
 package game_engine;
 
-import playing_field.playingField;
+import playing_field.PlayingField;
 
 import java.util.Scanner;
 
 public class Engine {
-    playing_field.playingField playingField = new playingField();
+    private final PlayingField playingField = new PlayingField();
+    private final Scanner scan = new Scanner(System.in);
     public void player() {
-        Scanner scan = new Scanner(System.in);
+
         byte input = scan.nextByte();
         while(input > 0 && input < 10 && (playingField.getBox()[input - 1] == 'X' || playingField.getBox()[input - 1] == 'O')) {
             if(playingField.getBox()[input - 1] == 'X' || playingField.getBox()[input - 1] == 'O') {
@@ -16,7 +17,6 @@ public class Engine {
             input = scan.nextByte();
         }
         playingField.setBox('X',input - 1);
-        scan.close();
     }
     public void enemy() {
         byte rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
@@ -74,5 +74,6 @@ public class Engine {
             round++;
             playingField.printField();
         }
+        scan.close();
     }
 }
