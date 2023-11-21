@@ -1,6 +1,6 @@
 package playing_field;
 
-public class playingField {
+public class PlayingField {
     private char[] box = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
     public char[] getBox() {
