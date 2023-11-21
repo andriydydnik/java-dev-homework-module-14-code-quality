@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class Engine {
     private final PlayingField playingField = new PlayingField();
-    private final Scanner scan = new Scanner(System.in);
+    private Scanner scan;
     public void player() {
-
+        scan = new Scanner(System.in);
         byte input = scan.nextByte();
         while(input > 0 && input < 10 && (playingField.getBox()[input - 1] == 'X' || playingField.getBox()[input - 1] == 'O')) {
             if(playingField.getBox()[input - 1] == 'X' || playingField.getBox()[input - 1] == 'O') {
