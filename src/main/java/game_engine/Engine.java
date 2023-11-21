@@ -1,36 +1,38 @@
 package game_engine;
 
-import playing_field.PlayingField;
+import playing_field.playingField;
 
 import java.util.Scanner;
 
 public class Engine {
+    playing_field.playingField playingField = new playingField();
     public void player() {
         Scanner scan = new Scanner(System.in);
         byte input = scan.nextByte();
-        while(input > 0 && input < 10 && (PlayingField.getBox()[input - 1] == 'X' || PlayingField.getBox()[input - 1] == 'O')) {
-            if(PlayingField.getBox()[input - 1] == 'X' || PlayingField.getBox()[input - 1] == 'O') {
+        while(input > 0 && input < 10 && (playingField.getBox()[input - 1] == 'X' || playingField.getBox()[input - 1] == 'O')) {
+            if(playingField.getBox()[input - 1] == 'X' || playingField.getBox()[input - 1] == 'O') {
                 System.out.println("That one is already in use. Enter another.");
             }
             input = scan.nextByte();
         }
-        PlayingField.setBox('X',input - 1);
+        playingField.setBox('X',input - 1);
+        scan.close();
     }
     public void enemy() {
         byte rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
-        while (PlayingField.getBox()[rand - 1] == 'X' || PlayingField.getBox()[rand - 1] == 'O') {
+        while (playingField.getBox()[rand - 1] == 'X' || playingField.getBox()[rand - 1] == 'O') {
             rand = (byte) (Math.random() * (9 - 1 + 1) + 1);
         }
-        PlayingField.getBox()[rand - 1] = 'O';
+        playingField.getBox()[rand - 1] = 'O';
     }
     private byte findWinner() {
         char[] winner = {'X', 'O'};
         String[] winningCombinations = {"012", "345","678","036","147","258","048","246"};
         for(String combination : winningCombinations) {
             for(char winChar : winner) {
-                if (PlayingField.getBox()[Integer.parseInt(String.valueOf(combination.charAt(0)))] == winChar &&
-                        PlayingField.getBox()[Integer.parseInt(String.valueOf(combination.charAt(1)))] == winChar &&
-                        PlayingField.getBox()[Integer.parseInt(String.valueOf(combination.charAt(2)))] == winChar) {
+                if (playingField.getBox()[Integer.parseInt(String.valueOf(combination.charAt(0)))] == winChar &&
+                        playingField.getBox()[Integer.parseInt(String.valueOf(combination.charAt(1)))] == winChar &&
+                        playingField.getBox()[Integer.parseInt(String.valueOf(combination.charAt(2)))] == winChar) {
                     return (byte) (winChar == 'X' ? 1 : 2);
                 }
             }
@@ -39,7 +41,7 @@ public class Engine {
     }
     public boolean isDraw() {
         int countFullBox = 9;
-        for(char box : PlayingField.getBox()){
+        for(char box : playingField.getBox()){
             if(box == 'X' || box == 'O'){
                 countFullBox--;
             }
@@ -61,7 +63,7 @@ public class Engine {
     }
     public void startGame() {
         System.out.println("Enter box number to select. Enjoy!\n");
-        PlayingField.printField();
+        playingField.printField();
         int round = 0;
         while(resultOfGame()) {
             if (round % 2 == 0) {
@@ -70,7 +72,7 @@ public class Engine {
                 enemy();
             }
             round++;
-            PlayingField.printField();
+            playingField.printField();
         }
     }
 }
