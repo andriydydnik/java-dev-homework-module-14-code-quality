@@ -1,30 +1,35 @@
 package org.example;
 
+import org.example.logic.Checker;
+import org.example.logic.GameLogic;
+import org.example.output.OutputForConsole;
+
 public class App {
 
     @SuppressWarnings("java:S106")
     public static void main(String[] args) {
 
-        while (!Logic.endOfGame) {
+        GameLogic game = new GameLogic();
 
-            OutputForConsole.printField(Logic.valueForField);
+        while (!game.isEndOfGame()) {
 
-            Logic.clearField();
+            OutputForConsole.printField(game.getValueForField());
 
-            if (Logic.checkEndOfGame()){
+            game.clearField();
+
+            if (Checker.checkEndOfGame(game)){
                 continue;
             }
 
-            Logic.inputValueForUser();
+            game.inputValueForUser();
 
-            Logic.checkForValueX();
+            Checker.checkForValueX(game);
+            Checker.checkForValue0(game);
 
-            Logic.checkBoxAvailable();
+            Checker.checkBoxAvailable(game);
 
-            Logic.setRandomValue();
+            game.setRandomValue();
 
-            Logic.checkForValue0();
         }
-
     }
 }
